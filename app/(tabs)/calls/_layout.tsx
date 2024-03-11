@@ -10,10 +10,11 @@ const Layout = () => {
             <Stack.Screen
                 name='index'
                 options={{
-                    headerTitle: 'Calls',
+                    title: 'Calls',
                     headerLargeTitle: true,
                     headerShadowVisible: false,
-                    // headerBlurEffect: 'regular',
+                    headerTransparent: true,
+                    headerBlurEffect: 'regular',
                     headerStyle: {
                         backgroundColor: Colors.background,
                     },
