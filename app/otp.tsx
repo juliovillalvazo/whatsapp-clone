@@ -1,5 +1,6 @@
 import {
     ActivityIndicator,
+    Keyboard,
     KeyboardAvoidingView,
     Linking,
     Platform,
@@ -7,6 +8,7 @@ import {
     Text,
     TouchableOpacity,
     View,
+    TouchableWithoutFeedback,
 } from 'react-native';
 import React, { useState } from 'react';
 import { useRouter } from 'expo-router';
@@ -46,7 +48,7 @@ const otp = () => {
     const { bottom } = useSafeAreaInsets();
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 0;
 
-    const { signUp, setActive } = useSignUp();
+    const { signUp } = useSignUp();
     const { signIn } = useSignIn();
 
     const openLink = () => {
@@ -95,79 +97,83 @@ const otp = () => {
     };
 
     return (
-        <KeyboardAvoidingView
-            keyboardVerticalOffset={keyboardVerticalOffset}
-            style={styles.flex}
-        >
-            <View style={styles.container}>
-                {loading ? (
-                    <View style={styles.loading}>
-                        <ActivityIndicator
-                            size='large'
-                            color={Colors.primary}
-                        />
-                        <Text style={styles.loadingText}>Sending Code...</Text>
-                    </View>
-                ) : null}
-                <Text style={styles.description}>
-                    WhatsApp will need to verify your account. Carrier charges
-                    may apply.
-                </Text>
-                <View style={styles.list}>
-                    <View style={styles.listItem}>
-                        <Text style={styles.listItemText}>Mexico</Text>
-                        <Ionicons
-                            name='chevron-forward'
-                            size={20}
-                            color={Colors.gray}
-                        />
-                    </View>
-                    <View style={styles.separator} />
-                    <MaskInput
-                        style={styles.input}
-                        value={phoneNumber}
-                        autoFocus
-                        placeholder='+52 XXX XXX XXXX'
-                        keyboardType='numeric'
-                        onChangeText={(masked) => {
-                            setPhoneNumber(masked);
-                        }}
-                        mask={InternationalPhoneInput}
-                    />
-                </View>
-                <Text style={styles.legal}>
-                    You must be{'\n'}
-                    <Text style={styles.link} onPress={openLink}>
-                        at least 16 years old
-                    </Text>{' '}
-                    to register. Learn how WhatsApp works with the{' '}
-                    <Text style={styles.link} onPress={openLink}>
-                        Meta Companies
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <KeyboardAvoidingView
+                keyboardVerticalOffset={keyboardVerticalOffset}
+                style={styles.flex}
+            >
+                <View style={styles.container}>
+                    {loading ? (
+                        <View style={styles.loading}>
+                            <ActivityIndicator
+                                size='large'
+                                color={Colors.primary}
+                            />
+                            <Text style={styles.loadingText}>
+                                Sending Code...
+                            </Text>
+                        </View>
+                    ) : null}
+                    <Text style={styles.description}>
+                        WhatsApp will need to verify your account. Carrier
+                        charges may apply.
                     </Text>
-                    .
-                </Text>
-                <View style={{ flex: 1 }} />
+                    <View style={styles.list}>
+                        <View style={styles.listItem}>
+                            <Text style={styles.listItemText}>Mexico</Text>
+                            <Ionicons
+                                name='chevron-forward'
+                                size={20}
+                                color={Colors.gray}
+                            />
+                        </View>
+                        <View style={styles.separator} />
+                        <MaskInput
+                            style={styles.input}
+                            value={phoneNumber}
+                            placeholder='+52 XXX XXX XXXX'
+                            keyboardType='numeric'
+                            onChangeText={(masked) => {
+                                setPhoneNumber(masked);
+                            }}
+                            mask={InternationalPhoneInput}
+                            onBlur={() => Keyboard.dismiss()}
+                        />
+                    </View>
+                    <Text style={styles.legal}>
+                        You must be{'\n'}
+                        <Text style={styles.link} onPress={openLink}>
+                            at least 16 years old
+                        </Text>{' '}
+                        to register. Learn how WhatsApp works with the{' '}
+                        <Text style={styles.link} onPress={openLink}>
+                            Meta Companies
+                        </Text>
+                        .
+                    </Text>
+                    <View style={{ flex: 1 }} />
 
-                <TouchableOpacity
-                    style={[
-                        styles.button,
-                        phoneNumber !== '' ? styles.enabled : null,
-                        { marginBottom: bottom },
-                    ]}
-                    onPress={sendOTP}
-                    disabled={phoneNumber === ''}
-                >
-                    <Text
+                    <TouchableOpacity
                         style={[
-                            styles.buttonText,
+                            styles.button,
                             phoneNumber !== '' ? styles.enabled : null,
+                            { marginBottom: bottom },
                         ]}
+                        onPress={sendOTP}
+                        disabled={phoneNumber === ''}
                     >
-                        Next
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        </KeyboardAvoidingView>
+                        <Text
+                            style={[
+                                styles.buttonText,
+                                phoneNumber !== '' ? styles.enabled : null,
+                            ]}
+                        >
+                            Next
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     );
 };
 

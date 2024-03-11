@@ -72,6 +72,7 @@ const Chat = () => {
             style={{
                 flex: 1,
                 marginBottom: insets.bottom,
+                // bottom: 0,
                 backgroundColor: Colors.background,
             }}
         >

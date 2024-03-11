@@ -17,10 +17,6 @@ const index = () => {
         Linking.openURL('https://www.github.com/juliovillalvazo');
     };
 
-    const sendOTP = async () => {};
-
-    const trySignIn = async () => {};
-
     return (
         <View style={styles.container}>
             <Image source={{ uri: welcome_image }} style={styles.welcome} />
